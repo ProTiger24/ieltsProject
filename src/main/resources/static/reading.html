@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Module</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .timer-container {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .time-warning {
+            color: #dc3545;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .passage-container {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            line-height: 1.6;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question p {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .options div {
+            margin: 8px 0;
+        }
+
+        .progress-info {
+            text-align: center;
+            margin: 10px 0;
+            color: #666;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav ul li a:hover::before {
+            left: 0;
+        }
+
+        nav ul li a:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        nav ul li a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo-container">
+
+            <span class="logo-text">IELTS Mastery Pro</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="speaking.html">Speaking</a></li>
+            <li><a href="writing.html">Writing</a></li>
+            <li><a href="reading.html" class="active">Reading</a></li>
+            <li><a href="listening.html">Listening</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Reading Module</h2>
+
+        <div class="progress-info">
+            Passage: <span id="passageNumber">1</span>/10 | Questions: 2 per passage
+        </div>
+
+        <div class="timer-container">
+            <div class="timer" id="readingTimer">10:00</div>
+            <p>Time remaining for this passage</p>
+        </div>
+
+        <div class="passage-container" id="passageContainer">
+            <p style="text-align: center; color: #666; margin-top: 100px;">
+                Click "Start Test" to begin reading practice
+            </p>
+        </div>
+
+        <div class="question-container" id="questionContainer">
+            <p style="text-align: center; color: #666;">
+                Questions will appear here after starting the test
+            </p>
+        </div>
+
+        <div class="controls">
+            <button id="startReadingBtn" onclick="startReadingTest()">Start Test</button>
+            <button id="submitReadingBtn" onclick="submitReadingAnswers()" disabled>Submit Answers</button>
+            <button id="nextPassageBtn" onclick="loadNextPassage()" style="display: none;">Next Passage</button>
+        </div>
+
+        <div id="readingFeedback" class="feedback-container"></div>
+    </div>
+
+    <script>
+        // Reading passages with questions
+        const readingPassages = [
+            {
+                title: "The History of Coffee",
+                content: `Coffee is one of the most popular beverages worldwide, with a rich history dating back centuries. The discovery of coffee is often attributed to an Ethiopian goat herder named Kaldi, who noticed his goats became energetic after eating berries from a certain tree. The cultivation and trade of coffee began on the Arabian Peninsula. By the 15th century, coffee was being grown in the Yemeni district of Arabia and by the 16th century, it had spread to Persia, Egypt, Syria, and Turkey. Coffee houses quickly became centers of social activity and communication in major cities across England, Austria, France, Germany, and Holland.`,
+                questions: [
+                    {
+                        question: "Where was coffee first discovered according to the passage?",
+                        options: ["Brazil", "Ethiopia", "Yemen", "Turkey"],
+                        answer: 1
+                    },
+                    {
+                        question: "What were the main centers for coffee consumption in Europe?",
+                        options: ["Universities", "Coffee houses", "Royal palaces", "Market places"],
+                        answer: 1
+                    }
+                ]
+            },
+            {
+                title: "Climate Change and Coral Reefs",
+                content: `Coral reefs are among the most diverse and valuable ecosystems on Earth. They support more species per unit area than any other marine environment. Climate change represents the greatest global threat to coral reef ecosystems. Scientific evidence clearly indicates that the Earth's atmosphere and ocean are warming due to greenhouse gases from human activities. As temperatures rise, mass coral bleaching events become more frequent. Additionally, carbon dioxide absorbed into the ocean reduces calcification rates in reef-building organisms through ocean acidification.`,
+                questions: [
+                    {
+                        question: "What is described as the greatest threat to coral reefs?",
+                        options: ["Overfishing", "Pollution", "Climate change", "Tourism"],
+                        answer: 2
+                    },
+                    {
+                        question: "What process occurs when carbon dioxide is absorbed by the ocean?",
+                        options: ["Coral bleaching", "Ocean acidification", "Sea level rise", "Global warming"],
+                        answer: 1
+                    }
+                ]
+            },
+            {
+                title: "The Industrial Revolution",
+                content: `The Industrial Revolution was a period of major industrialization that took place during the late 1700s and early 1800s. The Revolution began in Great Britain and quickly spread throughout the world. This era saw a massive shift from hand production methods to machines, new chemical manufacturing and iron production processes, improved efficiency of water power, the increasing use of steam power, and the development of machine tools. It marked a major turning point in history, influencing almost every aspect of daily life.`,
+                questions: [
+                    {
+                        question: "Where did the Industrial Revolution begin?",
+                        options: ["France", "United States", "Great Britain", "Germany"],
+                        answer: 2
+                    },
+                    {
+                        question: "What was a key technological development during this period?",
+                        options: ["Electricity", "Steam power", "Nuclear energy", "Solar power"],
+                        answer: 1
+                    }
+                ]
+            },
+            {
+                title: "Artificial Intelligence",
+                content: `Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving. AI has become increasingly prevalent in today's world, with applications ranging from virtual assistants to self-driving cars. The development of AI systems requires large amounts of data and sophisticated algorithms to process information and make decisions.`,
+                questions: [
+                    {
+                        question: "What does Artificial Intelligence simulate?",
+                        options: ["Animal behavior", "Human intelligence", "Computer systems", "Natural processes"],
+                        answer: 1
+                    },
+                    {
+                        question: "What do AI systems require for development?",
+                        options: ["Large data and algorithms", "Only hardware", "Human operators", "Simple programs"],
+                        answer: 0
+                    }
+                ]
+            },
+            {
+                title: "Renewable Energy Sources",
+                content: `Renewable energy comes from natural sources that are constantly replenished. These include solar power, wind power, hydroelectric power, geothermal energy, and biomass. Unlike fossil fuels, renewable energy sources produce little to no greenhouse gas emissions, making them crucial in the fight against climate change. Many countries are investing heavily in renewable energy infrastructure to reduce their carbon footprint. The transition to renewable energy also creates new job opportunities and promotes energy independence.`,
+                questions: [
+                    {
+                        question: "What is the main advantage of renewable energy mentioned?",
+                        options: ["Lower cost", "No greenhouse emissions", "Easy installation", "Unlimited supply"],
+                        answer: 1
+                    },
+                    {
+                        question: "What additional benefit does renewable energy provide?",
+                        options: ["Job creation", "Faster production", "Smaller equipment", "Less maintenance"],
+                        answer: 0
+                    }
+                ]
+            },
+            {
+                title: "The Human Brain",
+                content: `The human brain is the most complex organ in the human body. It controls thought, memory, emotion, touch, motor skills, vision, breathing, temperature, hunger, and every process that regulates our body. Weighing about 1.4 kilograms, it contains approximately 86 billion neurons. These neurons communicate through trillions of connections called synapses, creating a massive network that enables all brain functions. The brain's plasticity allows it to adapt and reorganize itself throughout a person's life.`,
+                questions: [
+                    {
+                        question: "How many neurons does the human brain contain approximately?",
+                        options: ["8.6 billion", "86 billion", "860 billion", "8.6 million"],
+                        answer: 1
+                    },
+                    {
+                        question: "What allows the brain to adapt throughout life?",
+                        options: ["Plasticity", "Size", "Weight", "Color"],
+                        answer: 0
+                    }
+                ]
+            },
+            {
+                title: "Ancient Egyptian Civilization",
+                content: `Ancient Egypt was a civilization of ancient North Africa, concentrated along the lower reaches of the Nile River. The civilization began around 3100 BC with the political unification of Upper and Lower Egypt under Menes. Ancient Egyptian civilization followed prehistoric Egypt and lasted for the next 3000 years. Notable achievements include the pyramids, hieroglyphic writing system, and advanced understanding of mathematics and medicine. The Nile River was essential for agriculture and transportation.`,
+                questions: [
+                    {
+                        question: "Which river was central to Ancient Egyptian civilization?",
+                        options: ["Tigris River", "Euphrates River", "Nile River", "Jordan River"],
+                        answer: 2
+                    },
+                    {
+                        question: "What was one of their notable achievements?",
+                        options: ["Pyramids", "Aircraft", "Computers", "Telephones"],
+                        answer: 0
+                    }
+                ]
+            },
+            {
+                title: "Space Exploration",
+                content: `Space exploration is the discovery and exploration of celestial structures in outer space by means of continuously evolving and growing space technology. The early era of space exploration was driven by the "Space Race" between the Soviet Union and the United States. Major milestones include the first artificial satellite (Sputnik 1), the first human in space (Yuri Gagarin), and the Apollo moon landings. Today, space exploration continues with missions to Mars and beyond.`,
+                questions: [
+                    {
+                        question: "What was the name of the first artificial satellite?",
+                        options: ["Explorer 1", "Sputnik 1", "Vanguard 1", "Telstar 1"],
+                        answer: 1
+                    },
+                    {
+                        question: "Which countries competed in the early Space Race?",
+                        options: ["USA and China", "Soviet Union and USA", "Europe and Asia", "India and Japan"],
+                        answer: 1
+                    }
+                ]
+            },
+            {
+                title: "The Digital Revolution",
+                content: `The Digital Revolution refers to the advancement of technology from analog electronic and mechanical devices to the digital technology available today. The era started during the 1980s and is ongoing. This revolution has transformed how people work, communicate, learn, and entertain themselves. Key developments include personal computers, the Internet, mobile phones, and digital media. The Digital Revolution has created new industries while disrupting traditional ones.`,
+                questions: [
+                    {
+                        question: "When did the Digital Revolution begin according to the passage?",
+                        options: ["1970s", "1980s", "1990s", "2000s"],
+                        answer: 1
+                    },
+                    {
+                        question: "What has been the impact on traditional industries?",
+                        options: ["Disruption", "Support", "No effect", "Strengthening"],
+                        answer: 0
+                    }
+                ]
+            },
+            {
+                title: "Marine Biology",
+                content: `Marine biology is the scientific study of organisms in the ocean or other marine bodies of water. Marine biologists study everything from microscopic plankton to the largest whales. The ocean covers about 71% of the Earth's surface and contains 97% of the Earth's water. Marine life plays a crucial role in regulating the Earth's climate and producing oxygen through photosynthesis. Understanding marine ecosystems is essential for conservation efforts.`,
+                questions: [
+                    {
+                        question: "What percentage of the Earth's surface is covered by ocean?",
+                        options: ["61%", "71%", "81%", "91%"],
+                        answer: 1
+                    },
+                    {
+                        question: "What important role does marine life play?",
+                        options: ["Climate regulation", "Land creation", "Mountain formation", "Desert expansion"],
+                        answer: 0
+                    }
+                ]
+            }
+        ];
+
+        let currentPassageIndex = 0;
+        let readingTimer;
+        let readingTimeLeft = 600; // 10 minutes per passage
+        let readingTestStarted = false;
+
+        function startReadingTest() {
+            if (readingTestStarted) return;
+
+            readingTestStarted = true;
+            readingTimeLeft = 600; // 10 minutes per passage
+
+            document.getElementById('startReadingBtn').disabled = true;
+            document.getElementById('submitReadingBtn').disabled = false;
+
+            loadPassage(currentPassageIndex);
+            startReadingTimer();
+        }
+
+        function startReadingTimer() {
+            const timerElement = document.getElementById('readingTimer');
+
+            // Clear existing timer if any
+            if (readingTimer) {
+                clearInterval(readingTimer);
+            }
+
+            readingTimer = setInterval(() => {
+                readingTimeLeft--;
+                const minutes = Math.floor(readingTimeLeft / 60);
+                const seconds = readingTimeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (readingTimeLeft <= 60) {
+                    timerElement.className = "timer time-warning";
+                }
+
+                if (readingTimeLeft <= 0) {
+                    clearInterval(readingTimer);
+                    document.getElementById('submitReadingBtn').disabled = true;
+                    alert("Time's up! Moving to next passage.");
+                    submitReadingAnswers();
+                }
+            }, 1000);
+        }
+
+        function loadPassage(index) {
+            if (index >= readingPassages.length) {
+                document.getElementById('passageContainer').innerHTML = "<h3 style='text-align: center;'>🎉 All passages completed!</h3>";
+                document.getElementById('questionContainer').innerHTML = "";
+                document.getElementById('submitReadingBtn').style.display = 'none';
+                document.getElementById('nextPassageBtn').style.display = 'none';
+                return;
+            }
+
+            currentPassageIndex = index;
+            const passage = readingPassages[index];
+
+            // Load passage
+            document.getElementById('passageContainer').innerHTML = `
+                <h3>${passage.title}</h3>
+                <div class="passage-content">${passage.content}</div>
+            `;
+
+            // Load questions
+            let questionsHTML = `<h3>Questions:</h3>`;
+            passage.questions.forEach((q, qIndex) => {
+                questionsHTML += `
+                    <div class="question">
+                        <p>${qIndex + 1}. ${q.question}</p>
+                        <div class="options">
+                            ${q.options.map((option, oIndex) => `
+                                <div>
+                                    <input type="radio" id="q${index}_${qIndex}_${oIndex}" name="q${index}_${qIndex}" value="${oIndex}">
+                                    <label for="q${index}_${qIndex}_${oIndex}">${option}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('questionContainer').innerHTML = questionsHTML;
+            document.getElementById('passageNumber').textContent = index + 1;
+
+            // Show/hide next button
+            document.getElementById('nextPassageBtn').style.display = 'none';
+        }
+
+        function submitReadingAnswers() {
+            if (readingTimer) {
+                clearInterval(readingTimer);
+            }
+
+            let score = 0;
+            let totalQuestions = 0;
+
+            // Calculate score for current passage
+            const passage = readingPassages[currentPassageIndex];
+            passage.questions.forEach((q, qIndex) => {
+                totalQuestions++;
+                const selectedOption = document.querySelector(`input[name="q${currentPassageIndex}_${qIndex}"]:checked`);
+                if (selectedOption && parseInt(selectedOption.value) === q.answer) {
+                    score++;
+                }
+            });
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+
+            document.getElementById('readingFeedback').innerHTML = `
+                <h3>📖 Reading Results</h3>
+                <div class="feedback-item">
+                    <strong>Passage:</strong> ${passage.title}
+                </div>
+                <div class="feedback-item">
+                    <strong>Score:</strong> ${score} out of ${totalQuestions} (${percentage}%)
+                </div>
+                <div class="feedback-item">
+                    <strong>Time Remaining:</strong> ${Math.floor(readingTimeLeft / 60)}:${(readingTimeLeft % 60).toString().padStart(2, '0')}
+                </div>
+            `;
+
+            document.getElementById('submitReadingBtn').disabled = true;
+            document.getElementById('nextPassageBtn').style.display = 'inline-block';
+        }
+
+        function loadNextPassage() {
+            currentPassageIndex++;
+            if (currentPassageIndex < readingPassages.length) {
+                loadPassage(currentPassageIndex);
+                document.getElementById('readingFeedback').innerHTML = '';
+                document.getElementById('submitReadingBtn').disabled = false;
+                readingTimeLeft = 600;
+                document.getElementById('readingTimer').textContent = '10:00';
+                document.getElementById('readingTimer').className = 'timer';
+                startReadingTimer();
+            } else {
+                document.getElementById('passageContainer').innerHTML = "<h3 style='text-align: center;'>🎉 All passages completed!</h3>";
+                document.getElementById('questionContainer').innerHTML = "";
+                document.getElementById('nextPassageBtn').style.display = 'none';
+                document.getElementById('submitReadingBtn').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

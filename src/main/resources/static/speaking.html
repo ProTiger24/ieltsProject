@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaking Practice</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo-container">
+
+            <span class="logo-text">IELTS Mastery Pro</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="speaking.html" class="active">Speaking</a></li>
+            <li><a href="writing.html">Writing</a></li>
+            <li><a href="reading.html">Reading</a></li>
+            <li><a href="listening.html">Listening</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Speaking Module</h2>
+        <p>Record your speech on the given topic and get AI feedback:</p>
+
+        <div class="topic-card">
+            <h3>Topic: Describe your favorite hobby</h3>
+            <p>Speak for 3 minutes about a hobby you enjoy. Explain what it is, why you like it, and how often you do
+                it.</p>
+        </div>
+
+        <div class="controls">
+            <button id="startRecordBtn">🎤 Start Recording</button>
+            <button id="stopRecordBtn" disabled>⏹️ Stop Recording</button>
+        </div>
+
+        <div id="speakingTimer" class="timer-display">03:00</div>
+        <div id="speakingStatus" class="status-message">Click "Start Recording" to begin</div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="speakingFeedback" class="feedback-container"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

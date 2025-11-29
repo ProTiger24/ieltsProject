@@ -1,0 +1,6 @@
+POST http://localhost:8080/api/writing/submit
+Content-Type: application/json
+
+{
+    "text": "The graph shows population trends from 2000 to 2020 in different regions."
+}

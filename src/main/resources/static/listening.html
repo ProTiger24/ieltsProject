@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Module</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .test-instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .audio-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .audio-player {
+            margin: 20px 0;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .questions-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .question-group:last-child {
+            border-bottom: none;
+        }
+
+        .question-group h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .option {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .time-indicator {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 15px 0;
+            font-weight: 600;
+            color: #1976d2;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .audio-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .audio-option-btn {
+            padding: 8px 16px;
+            background: #e9ecef;
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .audio-option-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .audio-option-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav ul li a:hover::before {
+            left: 0;
+        }
+
+        nav ul li a:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        nav ul li a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo-container">
+
+            <span class="logo-text">IELTS Mastery Pro</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="speaking.html">Speaking</a></li>
+            <li><a href="writing.html">Writing</a></li>
+            <li><a href="reading.html">Reading</a></li>
+            <li><a href="listening.html" class="active">Listening</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>IELTS Listening Practice Test</h2>
+
+        <div class="test-instructions">
+            <h3>Instructions</h3>
+            <p><strong>You will hear the audio only once.</strong> There are 10 questions in this test. Answer all
+                questions while you listen to the recording.</p>
+            <p>Write your answers on the question paper. You will have 10 minutes at the end of the test to transfer
+                your answers to the answer sheet.</p>
+        </div>
+
+        <div class="audio-section">
+            <h3>Listening Audio</h3>
+
+            <!-- Audio Selection Options -->
+            <div class="audio-options">
+                <button class="audio-option-btn active" onclick="changeAudio('conversation')">Daily
+                    Conversation</button>
+                <button class="audio-option-btn" onclick="changeAudio('academic')">Academic Lecture</button>
+                <button class="audio-option-btn" onclick="changeAudio('monologue')">Monologue</button>
+            </div>
+
+            <div class="audio-player">
+                <audio controls id="listeningAudio">
+                    <!-- Default audio source -->
+                    <source src="New_Year_Resolution.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="time-indicator">
+                ⏱️ Audio Length: 2 minutes 15 seconds
+            </div>
+        </div>
+
+        <div class="questions-section">
+            <div class="section-title">Questions 1-4</div>
+            <div class="question-group">
+                <h4>Complete the notes below. Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each
+                    answer.</h4>
+
+                <div class="question">
+                    <div class="question-text">1. The library opens at _______________ on weekdays.</div>
+                    <input type="text" id="q1" class="answer-input" placeholder="Write your answer here..."
+                        style="width: 200px; padding: 8px; margin: 5px 0;">
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. Students need to show their _______________ to borrow books.</div>
+                    <input type="text" id="q2" class="answer-input" placeholder="Write your answer here..."
+                        style="width: 200px; padding: 8px; margin: 5px 0;">
+                </div>
+
+                <div class="question">
+                    <div class="question-text">3. The maximum number of books that can be borrowed is _______________.
+                    </div>
+                    <input type="text" id="q3" class="answer-input" placeholder="Write your answer here..."
+                        style="width: 200px; padding: 8px; margin: 5px 0;">
+                </div>
+
+                <div class="question">
+                    <div class="question-text">4. Late returns are charged _______________ per day.</div>
+                    <input type="text" id="q4" class="answer-input" placeholder="Write your answer here..."
+                        style="width: 200px; padding: 8px; margin: 5px 0;">
+                </div>
+            </div>
+
+            <div class="section-title">Questions 5-7</div>
+            <div class="question-group">
+                <h4>Choose the correct letter, A, B or C.</h4>
+
+                <div class="question">
+                    <div class="question-text">5. What is the main purpose of the student's visit?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q5a" name="q5" value="A">
+                            <label for="q5a">A. To study for exams</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5b" name="q5" value="B">
+                            <label for="q5b">B. To research a project</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5c" name="q5" value="C">
+                            <label for="q5c">C. To borrow reference books</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">6. Where can students find science journals?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q6a" name="q6" value="A">
+                            <label for="q6a">A. Ground floor</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6b" name="q6" value="B">
+                            <label for="q6b">B. First floor</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6c" name="q6" value="C">
+                            <label for="q6c">C. Second floor</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">7. When does the library close on Saturdays?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q7a" name="q7" value="A">
+                            <label for="q7a">A. 4:00 PM</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7b" name="q7" value="B">
+                            <label for="q7b">B. 5:00 PM</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7c" name="q7" value="C">
+                            <label for="q7c">C. 6:00 PM</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Questions 8-10</div>
+            <div class="question-group">
+                <h4>Complete the table below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</h4>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                        <thead>
+                            <tr style="background: #667eea; color: white;">
+                                <th style="padding: 12px; text-align: left;">Event</th>
+                                <th style="padding: 12px; text-align: left;">Date</th>
+                                <th style="padding: 12px; text-align: left;">Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td style="padding: 12px;">Book Club Meeting</td>
+                                <td style="padding: 12px;">15th March</td>
+                                <td style="padding: 12px;">
+                                    <input type="text" id="q8" class="answer-input" placeholder="Answer for Q8"
+                                        style="width: 150px; padding: 5px;">
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd;">
+                                <td style="padding: 12px;">Research Workshop</td>
+                                <td style="padding: 12px;">
+                                    <input type="text" id="q9" class="answer-input" placeholder="Answer for Q9"
+                                        style="width: 150px; padding: 5px;">
+                                </td>
+                                <td style="padding: 12px;">Seminar Room</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Author Talk</td>
+                                <td style="padding: 12px;">22nd March</td>
+                                <td style="padding: 12px;">
+                                    <input type="text" id="q10" class="answer-input" placeholder="Answer for Q10"
+                                        style="width: 150px; padding: 5px;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls" style="text-align: center; margin-top: 30px;">
+            <button onclick="checkListening()" style="padding: 12px 30px; font-size: 16px;">Submit Answers</button>
+            <button onclick="resetListening()" class="secondary" style="padding: 12px 30px; font-size: 16px;">Reset
+                Answers</button>
+        </div>
+
+        <div id="listeningFeedback" class="feedback-container"></div>
+    </div>
+
+    <script>
+        // Local audio sources
+        const audioSources = {
+            conversation: "New_Year_Resolution.mp3",
+            academic: "Business_vs_Self-Employment.mp3",
+            monologue: "Hitch_1_Vocab.mp3"
+        };
+
+        function changeAudio(type) {
+            const audio = document.getElementById('listeningAudio');
+
+            // Create new source element
+            const source = document.createElement('source');
+            source.src = audioSources[type];
+            source.type = 'audio/mpeg';
+
+            // Clear existing sources and add new one
+            audio.innerHTML = '';
+            audio.appendChild(source);
+
+            // Reload audio
+            audio.load();
+
+            // Update active button
+            document.querySelectorAll('.audio-option-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update time indicator
+            const timeIndicators = {
+                conversation: "2 minutes 34 seconds",
+                academic: "2 minutes 50 seconds",
+                monologue: "9 minutes 33 seconds"
+            };
+            document.querySelector('.time-indicator').innerHTML = `⏱️ Audio Length: ${timeIndicators[type]}`;
+
+            console.log('Audio changed to:', audioSources[type]);
+        }
+
+        // Correct answers
+        const correctAnswers = {
+            q1: "9:00 AM",
+            q2: "student card",
+            q3: "5",
+            q4: "50p",
+            q5: "B",
+            q6: "C",
+            q7: "A",
+            q8: "Reading Room",
+            q9: "18th March",
+            q10: "Main Hall"
+        };
+
+        function checkListening() {
+            let score = 0;
+            const totalQuestions = 10;
+            let feedbackHTML = '';
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = 'q' + i;
+                let userAnswer = '';
+
+                if (i <= 4 || i >= 8) {
+                    const input = document.getElementById(questionId);
+                    userAnswer = input.value.trim();
+                } else {
+                    const selected = document.querySelector(`input[name="${questionId}"]:checked`);
+                    userAnswer = selected ? selected.value : '';
+                }
+
+                const correctAnswer = correctAnswers[questionId];
+                const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+
+                if (isCorrect) score++;
+
+                feedbackHTML += `
+                    <div class="feedback-item" style="border-left-color: ${isCorrect ? '#28a745' : '#dc3545'};">
+                        <strong>Q${i}:</strong> ${isCorrect ? '✅ Correct' : '❌ Incorrect'}
+                        ${!isCorrect ? `<br><small>Your answer: "${userAnswer || 'No answer'}" | Correct: "${correctAnswer}"</small>` : ''}
+                    </div>
+                `;
+            }
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const bandScore = (score / totalQuestions * 9).toFixed(1);
+
+            feedbackHTML = `
+                <h3>🎧 Listening Test Results</h3>
+                <div class="feedback-item">
+                    <strong>Score:</strong> ${score} out of ${totalQuestions} (${percentage}%)
+                </div>
+                <div class="feedback-item">
+                    <strong>Band Score:</strong> ${bandScore}/9.0
+                </div>
+                <div style="margin-top: 15px;">
+                    ${percentage >= 70 ?
+                    '<div style="color: #28a745; font-weight: 600;">✅ Excellent! Your listening skills are good.</div>' :
+                    '<div style="color: #dc3545; font-weight: 600;">❌ Keep practicing! Try to focus on key information.</div>'
+                }
+                </div>
+            ` + feedbackHTML;
+
+            document.getElementById('listeningFeedback').innerHTML = feedbackHTML;
+        }
+
+        function resetListening() {
+            for (let i = 1; i <= 10; i++) {
+                const input = document.getElementById('q' + i);
+                if (input) input.value = '';
+            }
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('listeningFeedback').innerHTML = '';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Listening module loaded');
+        });
+    </script>
+</body>
+
+</html>

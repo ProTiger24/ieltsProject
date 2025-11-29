@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Practice - Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .carousel-item {
+            height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .carousel-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 80%;
+        }
+
+        .carousel-content h2 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: none;
+            -webkit-text-fill-color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-content p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 8px;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0 20px;
+        }
+
+        .module-card {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer h5 {
+            color: #ecf0f1;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #3498db;
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            color: #bdc3c7;
+        }
+
+        .contact-info i {
+            color: #3498db;
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: #95a5a6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #bdc3c7;
+        }
+
+        .newsletter-form button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+
+        <div class="logo-container">
+
+            <span class="logo-text">IELTS Mastery Pro</span>
+        </div>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="speaking.html">Speaking</a></li>
+            <li><a href="writing.html">Writing</a></li>
+            <li><a href="reading.html">Reading</a></li>
+            <li><a href="listening.html">Listening</a></li>
+        </ul>
+    </nav>
+
+    <!-- Bootstrap Carousel -->
+    <div id="ieltsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#ieltsCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#ieltsCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#ieltsCarousel" data-bs-slide-to="2"></button>
+        </div>
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="carousel-content">
+                    <h2>🎯 Master IELTS with AI</h2>
+                    <p>Get personalized feedback and improve your scores with artificial intelligence</p>
+                    <button class="btn btn-light btn-lg" onclick="scrollToModules()">Start Learning</button>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="carousel-content">
+                    <h2>📊 Real-time Evaluation</h2>
+                    <p>Instant scoring and detailed analysis of your speaking and writing skills</p>
+                    <button class="btn btn-light btn-lg" onclick="scrollToModules()">Explore Features</button>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="carousel-content">
+                    <h2>🚀 Achieve Band 9.0</h2>
+                    <p>Comprehensive practice modules designed by IELTS experts</p>
+                    <button class="btn btn-light btn-lg" onclick="scrollToModules()">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#ieltsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#ieltsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stats Section -->
+        <div class="stats-section text-center text-white">
+            <div class="row">
+                <div class="col-md-3" style="color: #667eea;">
+                    <h3 class="display-4">500+</h3>
+                    <p>Students Trained</p>
+                </div>
+                <div class="col-md-3" style="color: #667eea;">
+                    <h3 class="display-4">9.0</h3>
+                    <p>Average Band Score</p>
+                </div>
+                <div class="col-md-3" style="color:#667eea;">
+                    <h3 class="display-4">98%</h3>
+                    <p>Success Rate</p>
+                </div>
+                <div class="col-md-3" style="color: #667eea;">
+                    <h3 class="display-4">24/7</h3>
+                    <p>AI Support</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modules Grid -->
+        <h2 class="text-center mb-5">Practice Modules</h2>
+        <div class="row g-4">
+            <!-- Speaking Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card module-card h-100 text-center p-4">
+                    <div class="module-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h4>🎤 Speaking</h4>
+                    <p class="text-muted">Record your speech and get AI feedback on pronunciation and fluency</p>
+                    <div class="mt-3">
+                        <span class="badge bg-primary mb-2">AI Evaluation</span>
+                        <span class="badge bg-success mb-2">Real-time</span>
+                    </div>
+                    <a href="speaking.html" class="btn btn-primary mt-3">Start Practice</a>
+                </div>
+            </div>
+
+            <!-- Writing Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card module-card h-100 text-center p-4">
+                    <div class="module-icon">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h4>✍️ Writing</h4>
+                    <p class="text-muted">Submit essays for detailed band scoring and improvement suggestions</p>
+                    <div class="mt-3">
+                        <span class="badge bg-primary mb-2">Band Score</span>
+                        <span class="badge bg-info mb-2">Detailed Feedback</span>
+                    </div>
+                    <a href="writing.html" class="btn btn-primary mt-3">Start Practice</a>
+                </div>
+            </div>
+
+            <!-- Reading Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card module-card h-100 text-center p-4">
+                    <div class="module-icon">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <h4>📖 Reading</h4>
+                    <p class="text-muted">Practice comprehension with passages and keyword identification</p>
+                    <div class="mt-3">
+                        <span class="badge bg-warning mb-2">Comprehension</span>
+                        <span class="badge bg-secondary mb-2">Vocabulary</span>
+                    </div>
+                    <a href="reading.html" class="btn btn-primary mt-3">Start Practice</a>
+                </div>
+            </div>
+
+            <!-- Listening Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card module-card h-100 text-center p-4">
+                    <div class="module-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h4>👂 Listening</h4>
+                    <p class="text-muted">Enhance listening skills with audio exercises and transcription</p>
+                    <div class="mt-3">
+                        <span class="badge bg-danger mb-2">Audio</span>
+                        <span class="badge bg-success mb-2">Transcription</span>
+                    </div>
+                    <a href="listening.html" class="btn btn-primary mt-3">Start Practice</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mt-5 pt-5">
+            <div class="col-md-4 text-center">
+                <i class="fas fa-robot fa-3x text-primary mb-3"></i>
+                <h4>AI Powered</h4>
+                <p>Advanced artificial intelligence provides instant, accurate feedback</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                <h4>Progress Tracking</h4>
+                <p>Monitor your improvement with detailed analytics and reports</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="fas fa-clock fa-3x text-warning mb-3"></i>
+                <h4>24/7 Available</h4>
+                <p>Practice anytime, anywhere with our always-available platform</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- Company Info -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>IELTS Mastery Pro</h5>
+                    <p class="contact-info">Your trusted partner in achieving IELTS success with AI-powered learning and
+                        expert guidance.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="speaking.html">Speaking</a></li>
+                        <li><a href="writing.html">Writing</a></li>
+                        <li><a href="reading.html">Reading</a></li>
+                        <li><a href="listening.html">Listening</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Resources</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">IELTS Tips</a></li>
+                        <li><a href="#">Practice Tests</a></li>
+                        <li><a href="#">Vocabulary</a></li>
+                        <li><a href="#">Grammar Guide</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Newsletter -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Stay Updated</h5>
+                    <p class="contact-info">Subscribe to get latest IELTS tips and updates</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+
+                    <div class="contact-info mt-4">
+                        <p><i class="fas fa-envelope"></i>abdulalim528260@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> 01957123090</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Education St, Learning City</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>&copy; 2024 IELTS Mastery Pro. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-end">
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light me-3">Terms of Service</a>
+                            <a href="#" class="text-light">Cookie Policy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        function scrollToModules() {
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Auto-rotate carousel every 5 seconds
+        const carousel = new bootstrap.Carousel('#ieltsCarousel', {
+            interval: 5000,
+            wrap: true
+        });
+    </script>
+</body>

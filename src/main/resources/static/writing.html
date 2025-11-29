@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Writing Practice</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .timer-container {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .time-warning {
+            color: #dc3545;
+        }
+
+        .topic-info {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav ul li a:hover::before {
+            left: 0;
+        }
+
+        nav ul li a:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        nav ul li a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo-container">
+
+            <span class="logo-text">IELTS Mastery Pro</span>
+        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="speaking.html">Speaking</a></li>
+            <li><a href="writing.html" class="active">Writing</a></li>
+            <li><a href="reading.html">Reading</a></li>
+            <li><a href="listening.html">Listening</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Writing Module</h2>
+
+        <!-- Timer Section -->
+        <div class="timer-container">
+            <div class="timer" id="writingTimer">10:00</div>
+            <p class="topic-info">Topic: <span id="topicNumber">1</span>/10 | Time: 10 minutes</p>
+        </div>
+
+        <p id="writingTopic">Write on the topic: <span id="topicText">Introduce yourself</span></p>
+        <textarea id="writingInput" rows="10" cols="60" placeholder="Start writing..."></textarea><br>
+
+        <div>
+            <button onclick="submitWriting()">Submit</button>
+            <button onclick="clearWriting()" style="background: #6c757d;">Clear</button>
+            <button onclick="nextTopic()" style="background: #28a745;" id="nextTopicBtn">Next Topic</button>
+        </div>
+
+        <div id="writingFeedback"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Writing topics
+        const writingTopics = [
+            "Introduce yourself and describe your background",
+            "Discuss the importance of education in modern society",
+            "The advantages and disadvantages of technology in daily life",
+            "Environmental issues and their solutions",
+            "The impact of social media on relationships",
+            "Traditional culture vs modern lifestyle",
+            "The benefits of learning a foreign language",
+            "Urban life compared to rural life",
+            "The role of sports in personal development",
+            "Future career goals and aspirations"
+        ];
+
+        let currentTopicIndex = 0;
+        let writingTimer;
+        let writingTimeLeft = 600; // 10 minutes
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            loadTopic(currentTopicIndex);
+            startTimer();
+        });
+
+        function startTimer() {
+            const timerElement = document.getElementById('writingTimer');
+
+            writingTimer = setInterval(() => {
+                writingTimeLeft--;
+                const minutes = Math.floor(writingTimeLeft / 60);
+                const seconds = writingTimeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (writingTimeLeft <= 60) {
+                    timerElement.className = "timer time-warning";
+                }
+
+                if (writingTimeLeft <= 0) {
+                    clearInterval(writingTimer);
+                    alert("Time's up! Please submit your writing.");
+                }
+            }, 1000);
+        }
+
+        function loadTopic(index) {
+            document.getElementById('topicText').textContent = writingTopics[index];
+            document.getElementById('topicNumber').textContent = index + 1;
+            document.getElementById('writingInput').value = '';
+            document.getElementById('writingFeedback').innerHTML = '';
+
+            // Reset timer
+            writingTimeLeft = 600;
+            document.getElementById('writingTimer').textContent = '10:00';
+            document.getElementById('writingTimer').className = 'timer';
+        }
+
+        function nextTopic() {
+            currentTopicIndex++;
+            if (currentTopicIndex < writingTopics.length) {
+                loadTopic(currentTopicIndex);
+            } else {
+                alert("All topics completed!");
+                currentTopicIndex = 0;
+                loadTopic(currentTopicIndex);
+            }
+        }
+    </script>
+</body>
+
+</html>
