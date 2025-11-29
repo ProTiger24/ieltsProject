@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Global Styles */
 * {
     margin: 0;
@@ -11,10 +12,21 @@ body {
     padding: 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+=======
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff;
+
+
+
+>>>>>>> 3166e765e07f8d60d37eb9486f5f60608864602a
 }
 
 /* Navigation Bar */
 nav {
+<<<<<<< HEAD
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 15px 0;
@@ -27,12 +39,18 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 15px 40px;
+=======
+    background-color: #333;
+    padding: 10px 0;
+
+>>>>>>> 3166e765e07f8d60d37eb9486f5f60608864602a
 }
 
 nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
+<<<<<<< HEAD
     margin: 0;
     padding: 0;
 }
@@ -141,10 +159,50 @@ textarea:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     background: white;
+=======
+    margin: 5px;
+    padding: 5px;
+
+
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 0;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+    color: blueviolet;
+}
+
+/* Container */
+.container {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+
+}
+
+/* Modules */
+.module {
+    display: none;
+}
+
+.module.active {
+    display: block;
+>>>>>>> 3166e765e07f8d60d37eb9486f5f60608864602a
 }
 
 /* Buttons */
 button {
+<<<<<<< HEAD
     padding: 14px 32px;
     margin: 10px 8px;
     cursor: pointer;
@@ -486,4 +544,34 @@ button.secondary:hover {
 /* Footer Styles */
 .footer {
     background: linear-gradient(135deg)
+=======
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+
+}
+
+/* Textareas */
+textarea {
+    width: 100%;
+    padding: 100px;
+    margin-top: 10px;
+}
+
+.writing {
+    color: blanchedalmond;
+    border-radius: 10px;
+    width: 50%;
+    length: 50%;
+
+
+>>>>>>> 3166e765e07f8d60d37eb9486f5f60608864602a
 }
