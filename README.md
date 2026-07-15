@@ -44,8 +44,8 @@ A valid Google Gemini API Key.
 
 Clone the repository:
 
-git clone https://github.com/your-username/EnglishMaster.git
-cd EnglishMaster
+git clone https://github.com/ProTiger24/ieltsProject.git
+
 
 
 Run the application:
